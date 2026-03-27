@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulseFi — Smart Banking Dashboard</title>
+  <meta name="description" content="PulseFi banking dashboard — manage finances, track savings, monitor investments, get AI recommendations.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
+</head>
+<body>
+
+<!-- Sidebar Overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ====== SIDEBAR ====== -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar__brand">
+    <div class="sidebar__logo">P</div>
+    <span class="sidebar__name">PulseFi</span>
+  </div>
+
+  <nav class="sidebar__nav">
+    <button class="nav-item active" data-screen="home" id="nav-home">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span class="nav-item__label">Home</span>
+    </button>
+    <button class="nav-item" data-screen="health" id="nav-health">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      <span class="nav-item__label">Financial Health</span>
+    </button>
+    <button class="nav-item" data-screen="pulse" id="nav-pulse">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <span class="nav-item__label">Pulse AI</span>
+    </button>
+    <button class="nav-item" data-screen="goals" id="nav-goals">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      <span class="nav-item__label">Savings Goals</span>
+    </button>
+    <button class="nav-item" data-screen="invest" id="nav-invest">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+      <span class="nav-item__label">Investments</span>
+    </button>
+  </nav>
+
+  <div class="sidebar__footer">
+    <div class="sidebar__user">
+      <div class="sidebar__avatar">M</div>
+      <div class="sidebar__user-info">
+        <div class="sidebar__user-name">Mia Johnson</div>
+        <div class="sidebar__user-email">mia@pulsefi.com</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ====== MAIN ====== -->
+<main class="main">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div style="display:flex;align-items:center;">
+      <button class="topbar__menu-btn" id="menuBtn" aria-label="Toggle menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="topbar__left">
+        <h1 id="topbar-title">Dashboard</h1>
+        <div class="topbar__greeting" id="topbar-greeting">Good morning, Mia 👋</div>
+      </div>
+    </div>
+    <div class="topbar__right">
+      <button class="btn-icon btn-icon--notification" aria-label="Notifications">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </button>
+      <button class="btn-icon" aria-label="Settings">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- HOME SCREEN -->
+  <!-- ============================================================ -->
+  <div class="screen active" id="screen-home">
+
+    <!-- Balance Hero + Quick Actions -->
+    <div class="balance-hero">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <div class="balance-hero__label">Total Balance</div>
+          <div class="balance-hero__amount">
+            <span class="balance-hero__amount-main">£3,420</span>
+            <span class="balance-hero__amount-decimal">.50</span>
+          </div>
+          <div class="balance-hero__meta">
+            <span class="badge badge--success">↗ +2.4% this month</span>
+            <span class="balance-hero__date">Mar 2026</span>
+          </div>
+        </div>
+      </div>
+      <div class="quick-actions">
+        <div class="quick-action">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          <span class="quick-action__label">Send</span>
+        </div>
+        <div class="quick-action">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+          <span class="quick-action__label">Receive</span>
+        </div>
+        <div class="quick-action">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
+          <span class="quick-action__label">Pay</span>
+        </div>
+        <div class="quick-action">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          <span class="quick-action__label">Top Up</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Grid: Left (health + monthly + alert) | Right (pots + portfolio) -->
+    <div class="grid-sidebar-layout" style="margin-top:20px;">
+      <div class="stack">
+
+        <!-- Row: Health + Monthly Side by Side -->
+        <div class="grid-2">
+          <!-- Financial Health Card -->
+          <div class="card">
+            <div class="card__header">
+              <span class="card__title">Financial Health</span>
+              <a class="card__link" data-nav="health">See Plan ›</a>
+            </div>
+            <div class="health-summary">
+              <div class="health-gauge-mini">
+                <svg viewBox="0 0 160 100" id="home-gauge">
+                  <path d="M20,85 A65,65 0 0,1 140,85" fill="none" stroke="#E8ECF0" stroke-width="12" stroke-linecap="round"/>
+                  <path d="M20,85 A65,65 0 0,1 140,85" fill="none" stroke="#E8A838" stroke-width="12" stroke-linecap="round" stroke-dasharray="188.5" stroke-dashoffset="49" class="gauge-arc"/>
+                </svg>
+              </div>
+              <div class="health-score-block">
+                <div class="health-score-block__value">74</div>
+                <div class="health-score-block__max">/ 100</div>
+                <div class="health-score-block__status">Fair</div>
+                <div class="health-score-block__label">Financial Health</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Monthly Summary Card -->
+          <div class="card">
+            <div class="card__header">
+              <span class="card__title">This Month</span>
+            </div>
+            <div class="monthly-row">
+              <span class="monthly-row__label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#2ECC71" stroke-width="2.5" width="16" height="16"><path d="M7 17l5-5 5 5M7 7l5 5 5-5"/></svg>
+                Income
+              </span>
+              <span class="monthly-row__value">£2,400</span>
+            </div>
+            <div class="monthly-row">
+              <span class="monthly-row__label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#E74C3C" stroke-width="2.5" width="16" height="16"><path d="M17 7l-5 5-5-5M17 17l-5-5-5 5"/></svg>
+                Spent
+              </span>
+              <span class="monthly-row__value">£1,870</span>
+            </div>
+            <div class="weekly-chart__labels">
+              <span class="weekly-chart__label">M</span>
+              <span class="weekly-chart__label">T</span>
+              <span class="weekly-chart__label">W</span>
+              <span class="weekly-chart__label">T</span>
+              <span class="weekly-chart__label">F</span>
+              <span class="weekly-chart__label">S</span>
+              <span class="weekly-chart__label">S</span>
+            </div>
+            <div class="weekly-chart">
+              <div class="weekly-chart__bar" style="height: 20%"></div>
+              <div class="weekly-chart__bar" style="height: 30%"></div>
+              <div class="weekly-chart__bar" style="height: 15%"></div>
+              <div class="weekly-chart__bar" style="height: 25%"></div>
+              <div class="weekly-chart__bar weekly-chart__bar--active" style="height: 60%"></div>
+              <div class="weekly-chart__bar" style="height: 10%"></div>
+              <div class="weekly-chart__bar" style="height: 8%"></div>
+            </div>
+            <div class="saved-badge">£530 saved this month</div>
+          </div>
+        </div>
+
+        <!-- Emergency Alert -->
+        <div class="alert-banner alert-banner--warning">
+          <div class="alert-banner__icon alert-banner__icon--warning">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="alert-banner__content">
+            <div class="alert-banner__title">Emergency buffer low</div>
+            <div class="alert-banner__subtitle">Covers 1.2 months · target is 3</div>
+          </div>
+          <div class="alert-banner__action">
+            <button class="btn btn--orange" data-nav="goals">Build Buffer</button>
+          </div>
+        </div>
+
+        <!-- Pulse AI Banner -->
+        <div class="pulse-banner" data-nav="pulse">
+          <div class="pulse-banner__icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div class="pulse-banner__content">
+            <div class="pulse-banner__title">Pulse AI has 3 recommendations</div>
+            <div class="pulse-banner__subtitle">Tap to see your personalised plan</div>
+          </div>
+          <span class="pulse-banner__arrow">›</span>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="stack">
+        <!-- Savings Pots Preview -->
+        <div class="card">
+          <div class="card__header">
+            <span class="card__title">Savings Pots</span>
+            <a class="card__link" data-nav="goals">All pots ›</a>
+          </div>
+          <div class="pot-item">
+            <div class="pot-item__header">
+              <div class="pot-item__info">
+                <div class="pot-item__icon pot-item__icon--emergency">🛡</div>
+                <span class="pot-item__name">Emergency Pot</span>
+              </div>
+              <span class="pot-item__status">40%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-bar__fill progress-bar__fill--orange" style="width:40%"></div></div>
+            <div class="pot-item__footer">£1,200 / £3,000</div>
+          </div>
+          <div class="pot-item">
+            <div class="pot-item__header">
+              <div class="pot-item__info">
+                <div class="pot-item__icon pot-item__icon--first-1k">🎯</div>
+                <span class="pot-item__name">First £1K</span>
+              </div>
+              <span class="pot-item__status pot-item__status--done">Done ✓</span>
+            </div>
+            <div class="progress-bar"><div class="progress-bar__fill progress-bar__fill--green" style="width:100%"></div></div>
+          </div>
+          <div class="pot-item">
+            <div class="pot-item__header">
+              <div class="pot-item__info">
+                <div class="pot-item__icon pot-item__icon--invest">📈</div>
+                <span class="pot-item__name">Safe to Invest</span>
+              </div>
+              <span class="pot-item__status">42%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-bar__fill progress-bar__fill--teal" style="width:42%"></div></div>
+            <div class="pot-item__footer">£840 / £2,000</div>
+          </div>
+        </div>
+
+        <!-- Portfolio Card -->
+        <div class="portfolio-card">
+          <div class="portfolio-card__value-row">
+            <div>
+              <div class="portfolio-card__label">Portfolio</div>
+              <div class="portfolio-card__amount">£4,280</div>
+              <div class="portfolio-card__badge">📈 +3.2%</div>
+              <div class="portfolio-card__meta">3 holdings · Mar 2026</div>
+            </div>
+            <div class="portfolio-card__chart-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            </div>
+          </div>
+          <button class="portfolio-card__btn" data-nav="invest">Review Portfolio ›</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- HEALTH SCREEN -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-health">
+    <div class="grid-sidebar-layout">
+      <div class="stack">
+        <!-- Gauge Card -->
+        <div class="card health-top-card">
+          <div class="gauge-container">
+            <svg viewBox="0 0 200 120" id="health-gauge">
+              <defs>
+                <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style="stop-color:#E8A838"/>
+                  <stop offset="100%" style="stop-color:#E8A838"/>
+                </linearGradient>
+              </defs>
+              <path d="M25,100 A75,75 0 0,1 175,100" fill="none" stroke="#E8ECF0" stroke-width="14" stroke-linecap="round"/>
+              <path d="M25,100 A75,75 0 0,1 175,100" fill="none" stroke="url(#gaugeGrad)" stroke-width="14" stroke-linecap="round" stroke-dasharray="235.5" stroke-dashoffset="61.23" class="health-gauge-arc"/>
+            </svg>
+          </div>
+          <div class="gauge-score">74</div>
+          <div class="gauge-max">/ 100</div>
+          <div class="gauge-status">Fair</div>
+          <div class="gauge-subtitle">Your plan is working.</div>
+          <div class="gauge-description">One key area needs attention — your emergency buffer.</div>
+
+          <div class="metric-chips">
+            <div class="metric-chip">
+              <span class="metric-chip__score metric-chip__score--teal">68</span>
+              <span class="metric-chip__label">Savings</span>
+            </div>
+            <div class="metric-chip">
+              <span class="metric-chip__score metric-chip__score--orange">40</span>
+              <span class="metric-chip__label">Emergency</span>
+            </div>
+            <div class="metric-chip">
+              <span class="metric-chip__score metric-chip__score--green">82</span>
+              <span class="metric-chip__label">Debt</span>
+            </div>
+            <div class="metric-chip">
+              <span class="metric-chip__score metric-chip__score--teal">71</span>
+              <span class="metric-chip__label">Spending</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Score Breakdown -->
+        <div>
+          <div class="breakdown-header">
+            <span class="breakdown-header__title">Score Breakdown</span>
+            <span class="breakdown-header__meta">Updated today</span>
+          </div>
+
+          <div class="breakdown-card">
+            <div class="breakdown-card__header">
+              <span class="breakdown-card__name">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#7B8794" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                Savings Rate
+              </span>
+              <span class="breakdown-card__score" style="color:var(--color-accent-teal)">68 <span>/ 100</span></span>
+            </div>
+            <div class="breakdown-card__progress"><div class="breakdown-card__fill" style="width:68%;background:var(--color-accent-teal)"></div></div>
+            <div class="breakdown-card__detail">Saving 22% of income · target is 25%</div>
+          </div>
+          <div class="breakdown-card">
+            <div class="breakdown-card__header">
+              <span class="breakdown-card__name">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#E8A838" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                Emergency Fund
+              </span>
+              <span class="breakdown-card__score" style="color:var(--color-accent-orange)">40 <span>/ 100</span></span>
+            </div>
+            <div class="breakdown-card__progress"><div class="breakdown-card__fill" style="width:40%;background:var(--color-accent-orange)"></div></div>
+            <div class="breakdown-card__detail">1.2 months covered · aim for 3 months</div>
+          </div>
+          <div class="breakdown-card">
+            <div class="breakdown-card__header">
+              <span class="breakdown-card__name">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#2ECC71" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Debt Ratio
+              </span>
+              <span class="breakdown-card__score" style="color:var(--color-accent-green)">82 <span>/ 100</span></span>
+            </div>
+            <div class="breakdown-card__progress"><div class="breakdown-card__fill" style="width:82%;background:var(--color-accent-green)"></div></div>
+            <div class="breakdown-card__detail">Low debt relative to income · great</div>
+          </div>
+          <div class="breakdown-card">
+            <div class="breakdown-card__header">
+              <span class="breakdown-card__name">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#7B8794" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                Spend Stability
+              </span>
+              <span class="breakdown-card__score" style="color:var(--color-accent-purple)">71 <span>/ 100</span></span>
+            </div>
+            <div class="breakdown-card__progress"><div class="breakdown-card__fill" style="width:71%;background:var(--color-accent-purple)"></div></div>
+            <div class="breakdown-card__detail">Minor overspend on dining out this week</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Impact Fix -->
+      <div class="stack">
+        <div class="impact-card">
+          <div class="impact-card__header">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8A838" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span class="impact-card__title">Highest-impact fix</span>
+          </div>
+          <p class="impact-card__text">Building your emergency buffer to 3 months would lift your FHI by an estimated <strong>+12 points</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PULSE SCREEN -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-pulse">
+
+    <div class="grid-3">
+      <!-- Emergency Buffer -->
+      <div class="reco-card">
+        <div class="reco-card__icon reco-card__icon--shield">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="reco-card__badge reco-card__badge--urgent">⚡ URGENT</div>
+        <h3 class="reco-card__title">Emergency buffer needs a boost</h3>
+        <p class="reco-card__text">You're £1,800 short of a 3-month cushion. Small steps close this faster than you think.</p>
+        <div class="reco-card__actions">
+          <button class="btn btn--primary">
+            <span class="btn-label">Add £50/month</span>
+            <span class="btn-sublabel">Auto-save</span>
+          </button>
+          <button class="btn btn--outline">
+            <span class="btn-label">One-time top-up</span>
+            <span class="btn-sublabel">Deposit now</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Investment Ready -->
+      <div class="reco-card">
+        <div class="reco-card__icon reco-card__icon--chart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        </div>
+        <div class="reco-card__badge reco-card__badge--ready">READY</div>
+        <h3 class="reco-card__title">You have £840 ready to invest</h3>
+        <p class="reco-card__text">Your Safe to Invest pot is building up. A low-risk fund could start working for you now.</p>
+        <div class="reco-card__actions">
+          <button class="btn btn--primary">
+            <span class="btn-label">Start small</span>
+            <span class="btn-sublabel">£50/mo ISA</span>
+          </button>
+          <button class="btn btn--outline">
+            <span class="btn-label">Learn first</span>
+            <span class="btn-sublabel">Read the guide</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- On Track -->
+      <div class="reco-card">
+        <div class="reco-card__icon reco-card__icon--check">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="reco-card__badge reco-card__badge--track">ON TRACK</div>
+        <h3 class="reco-card__title">Spending within limits this month</h3>
+        <p class="reco-card__text">You're £130 under budget. Great discipline, especially with dining out.</p>
+        <div class="reco-card__actions">
+          <button class="btn btn--primary">
+            <span class="btn-label">Move to savings</span>
+            <span class="btn-sublabel">Save the surplus</span>
+          </button>
+          <button class="btn btn--outline">
+            <span class="btn-label">Keep as buffer</span>
+            <span class="btn-sublabel">Leave it spare</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;">
+      <div class="pulse-footer-note">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        Pulse analyses your spending, savings, and goals weekly. Recommendations update automatically.
+      </div>
+    </div>
+
+    <div style="margin-top:16px;max-width:420px;">
+      <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:12px;">Need product comparison, wealth planning, or mortgage advice?</p>
+      <button class="specialist-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 20V4"/></svg>
+        Talk to a Specialist
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- GOALS SCREEN -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-goals">
+
+    <div class="grid-2">
+      <!-- Emergency Pot -->
+      <div class="goal-card">
+        <div class="goal-card__header">
+          <div class="goal-card__info">
+            <div class="goal-card__icon goal-card__icon--emergency">🛡</div>
+            <div>
+              <div class="goal-card__name">Emergency Pot</div>
+              <div class="goal-card__sub">Safety net</div>
+            </div>
+          </div>
+          <span class="goal-card__percent" style="color:var(--color-accent-orange)">40%</span>
+        </div>
+        <div class="goal-card__progress"><div class="progress-bar progress-bar--lg"><div class="progress-bar__fill progress-bar__fill--orange" style="width:40%"></div></div></div>
+        <div class="goal-card__amounts">
+          <span class="goal-card__current">£1,200 / £3,000</span>
+          <span class="goal-card__target-date">Target Aug 2026</span>
+        </div>
+        <div class="goal-card__actions">
+          <button class="btn btn--orange btn--full">+ Add Money</button>
+          <span class="goal-card__auto-label">+£200/mo</span>
+        </div>
+      </div>
+
+      <!-- First £1K -->
+      <div class="goal-card">
+        <div class="goal-card__header">
+          <div class="goal-card__info">
+            <div class="goal-card__icon goal-card__icon--milestone">🎯</div>
+            <div>
+              <div class="goal-card__name">First £1K <span class="check-icon">✅</span></div>
+              <div class="goal-card__sub">Milestone</div>
+            </div>
+          </div>
+          <span class="goal-card__percent" style="color:var(--color-accent-green)">100%</span>
+        </div>
+        <div class="goal-card__progress"><div class="progress-bar progress-bar--lg"><div class="progress-bar__fill progress-bar__fill--green" style="width:100%"></div></div></div>
+        <div class="goal-card__milestone-row">
+          <span class="goal-card__milestone-amount">£1,000 / £1,000</span>
+          <span class="goal-card__milestone-badge">🎉 Complete!</span>
+        </div>
+        <button class="btn btn--green-outline btn--full">↗ Move to Investment</button>
+      </div>
+
+      <!-- Safe to Invest -->
+      <div class="goal-card">
+        <div class="goal-card__header">
+          <div class="goal-card__info">
+            <div class="goal-card__icon goal-card__icon--invest">📈</div>
+            <div>
+              <div class="goal-card__name">Safe to Invest</div>
+              <div class="goal-card__sub">Investment buffer</div>
+            </div>
+          </div>
+          <span class="goal-card__percent" style="color:var(--color-accent-teal)">42%</span>
+        </div>
+        <div class="goal-card__progress"><div class="progress-bar progress-bar--lg"><div class="progress-bar__fill progress-bar__fill--teal" style="width:42%"></div></div></div>
+        <div class="goal-card__amounts">
+          <span class="goal-card__current">£840 / £2,000</span>
+          <span class="goal-card__target-date">Target Oct 2026</span>
+        </div>
+        <div class="goal-card__actions">
+          <button class="btn btn--primary btn--full">+ Add Money</button>
+          <span class="goal-card__auto-label">+£150/mo</span>
+        </div>
+      </div>
+
+      <!-- Holiday Fund -->
+      <div class="goal-card">
+        <div class="goal-card__header">
+          <div class="goal-card__info">
+            <div class="goal-card__icon goal-card__icon--holiday">✈️</div>
+            <div>
+              <div class="goal-card__name">Holiday Fund</div>
+              <div class="goal-card__sub">Barcelona 🇪🇸</div>
+            </div>
+          </div>
+          <span class="goal-card__percent" style="color:var(--color-accent-purple)">43%</span>
+        </div>
+        <div class="goal-card__progress"><div class="progress-bar progress-bar--lg"><div class="progress-bar__fill progress-bar__fill--purple" style="width:43%"></div></div></div>
+        <div class="goal-card__amounts">
+          <span class="goal-card__current">£340 / £800</span>
+          <span class="goal-card__target-date">Target Jun 2026</span>
+        </div>
+        <div class="goal-card__actions">
+          <button class="btn btn--purple btn--full">+ Add Money</button>
+          <span class="goal-card__auto-label">+£80/mo</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- INVEST SCREEN -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-invest">
+
+    <div class="grid-sidebar-layout">
+      <div class="stack">
+        <!-- Portfolio Chart -->
+        <div class="portfolio-top">
+          <div class="portfolio-top__value">£4,280.00</div>
+          <div class="portfolio-top__change">↗ +3.2% all time</div>
+          <div class="portfolio-chart">
+            <canvas id="portfolioChart"></canvas>
+          </div>
+          <div class="chart-labels">
+            <span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span>
+          </div>
+        </div>
+
+        <!-- Market Insight -->
+        <div class="alert-banner alert-banner--info">
+          <div class="alert-banner__icon alert-banner__icon--info">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          </div>
+          <div class="alert-banner__content">
+            <div class="alert-banner__title">Markets dipped -1.2% this week</div>
+            <div class="alert-banner__subtitle">Your portfolio is built for the long run. Short-term moves rarely matter — check your plan, not the news.</div>
+          </div>
+        </div>
+
+        <!-- Holdings -->
+        <div class="holdings-card">
+          <div class="holdings-card__header">
+            <span class="card__title">Holdings</span>
+            <a class="card__link">Manage ›</a>
+          </div>
+          <div class="holding-item">
+            <div class="holding-item__icon holding-item__icon--global">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <div class="holding-item__info">
+              <div class="holding-item__name">Global Index</div>
+              <div class="holding-item__fund">Vanguard FTSE All World</div>
+            </div>
+            <div class="holding-item__values">
+              <div class="holding-item__amount">£2,568</div>
+              <div class="holding-item__change">+4.1%</div>
+            </div>
+          </div>
+          <div class="holding-item">
+            <div class="holding-item__icon holding-item__icon--bonds">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+            </div>
+            <div class="holding-item__info">
+              <div class="holding-item__name">UK Bonds</div>
+              <div class="holding-item__fund">iShares Core UK Gilts</div>
+            </div>
+            <div class="holding-item__values">
+              <div class="holding-item__amount">£1,070</div>
+              <div class="holding-item__change">+0.8%</div>
+            </div>
+          </div>
+          <div class="holding-item">
+            <div class="holding-item__icon holding-item__icon--cash">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="holding-item__info">
+              <div class="holding-item__name">Cash Reserve</div>
+              <div class="holding-item__fund">Easy Access ISA</div>
+            </div>
+            <div class="holding-item__values">
+              <div class="holding-item__amount">£642</div>
+              <div class="holding-item__change">+3.5%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="stack">
+        <!-- Allocation -->
+        <div class="allocation-card">
+          <div class="allocation-card__header">
+            <span class="allocation-card__title">Allocation</span>
+            <span class="allocation-card__badge">Low risk</span>
+          </div>
+          <div class="allocation-row" style="flex-direction:column;gap:16px;">
+            <div class="donut-container">
+              <canvas id="donutChart"></canvas>
+            </div>
+            <div class="allocation-legend" style="width:100%;">
+              <div class="legend-item">
+                <div class="legend-item__info">
+                  <div class="legend-dot legend-dot--stocks"></div>
+                  <span class="legend-item__name">Global Stocks</span>
+                </div>
+                <span class="legend-item__value">60%</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-item__info">
+                  <div class="legend-dot legend-dot--bonds"></div>
+                  <span class="legend-item__name">UK Bonds</span>
+                </div>
+                <span class="legend-item__value">25%</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-item__info">
+                  <div class="legend-dot legend-dot--cash"></div>
+                  <span class="legend-item__name">Cash Reserve</span>
+                </div>
+                <span class="legend-item__value">15%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Specialist -->
+        <button class="specialist-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 20V4"/></svg>
+          Talk to an Investment Specialist
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

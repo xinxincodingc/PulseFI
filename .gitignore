@@ -1,0 +1,4 @@
+node_modules/
+package-lock.json
+excel_analysis.txt
+*.xlsx
