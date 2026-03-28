@@ -5,6 +5,15 @@
 
 let currentUser = null;
 
+function ensureUserInURL(defaultUser = 'GZ00001') {
+  const url = new URL(window.location.href);
+
+  if (!url.searchParams.get('user')) {
+    url.searchParams.set('user', defaultUser);
+    window.history.replaceState({}, '', url);
+  }
+}
+
 /* =============================================
    INIT
    ============================================= */
