@@ -394,67 +394,9 @@
   <!-- ============================================================ -->
   <div class="screen" id="screen-pulse">
 
-    <div class="grid-3">
-      <!-- Emergency Buffer -->
-      <div class="reco-card">
-        <div class="reco-card__icon reco-card__icon--shield">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <div class="reco-card__badge reco-card__badge--urgent">⚡ URGENT</div>
-        <h3 class="reco-card__title">Emergency buffer needs a boost</h3>
-        <p class="reco-card__text">You're £1,800 short of a 3-month cushion. Small steps close this faster than you think.</p>
-        <div class="reco-card__actions">
-          <button class="btn btn--primary">
-            <span class="btn-label">Add £50/month</span>
-            <span class="btn-sublabel">Auto-save</span>
-          </button>
-          <button class="btn btn--outline">
-            <span class="btn-label">One-time top-up</span>
-            <span class="btn-sublabel">Deposit now</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Investment Ready -->
-      <div class="reco-card">
-        <div class="reco-card__icon reco-card__icon--chart">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-        </div>
-        <div class="reco-card__badge reco-card__badge--ready">READY</div>
-        <h3 class="reco-card__title">You have £840 ready to invest</h3>
-        <p class="reco-card__text">Your Safe to Invest pot is building up. A low-risk fund could start working for you now.</p>
-        <div class="reco-card__actions">
-          <button class="btn btn--primary">
-            <span class="btn-label">Start small</span>
-            <span class="btn-sublabel">£50/mo ISA</span>
-          </button>
-          <button class="btn btn--outline">
-            <span class="btn-label">Learn first</span>
-            <span class="btn-sublabel">Read the guide</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- On Track -->
-      <div class="reco-card">
-        <div class="reco-card__icon reco-card__icon--check">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        </div>
-        <div class="reco-card__badge reco-card__badge--track">ON TRACK</div>
-        <h3 class="reco-card__title">Spending within limits this month</h3>
-        <p class="reco-card__text">You're £130 under budget. Great discipline, especially with dining out.</p>
-        <div class="reco-card__actions">
-          <button class="btn btn--primary">
-            <span class="btn-label">Move to savings</span>
-            <span class="btn-sublabel">Save the surplus</span>
-          </button>
-          <button class="btn btn--outline">
-            <span class="btn-label">Keep as buffer</span>
-            <span class="btn-sublabel">Leave it spare</span>
-          </button>
-        </div>
-      </div>
-    </div>
+    <div class="grid-3" id="recommendations-container">
+  <!-- Cards injected by pulse-ai.js -->
+</div>
 
     <div style="margin-top:20px;">
       <div class="pulse-footer-note">
@@ -698,6 +640,7 @@
 
 </main>
 
+<script src="pulse-ai.js"></script>  <!-- ← added this line for AI reccomendations -->
 <script src="app.js"></script>
 </body>
 </html>
