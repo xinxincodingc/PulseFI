@@ -10,6 +10,8 @@ let currentUser = null;
    ============================================= */
 document.addEventListener('DOMContentLoaded', async () => {
   try {
+    
+    ensureUserInURL(); 
     await loadDashboardData();
   } catch (err) {
     console.error('PulseFi dashboard data error:', err);
@@ -28,6 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 function getUserIdFromURL() {
   const params = new URLSearchParams(window.location.search);
   return params.get('user') || 'GZ00001';
+  
 }
 
 function fmtGBP(value, decimals = 0) {

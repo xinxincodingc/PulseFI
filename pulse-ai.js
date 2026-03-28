@@ -176,7 +176,7 @@ async function loadPulseRecommendations() {
   // Get the active user — set this on login via localStorage
   function getUserIdFromURL() {
   const params = new URLSearchParams(window.location.search);
-  return params.get("user") || localStorage.getItem("pulsefi_user_id") || DEFAULT_USER;
+  return params.get("user") || DEFAULT_USER;
 }
 const userId = getUserIdFromURL();
 localStorage.setItem("pulsefi_user_id", userId);
