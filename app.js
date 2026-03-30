@@ -302,19 +302,35 @@ function renderUserData(user) {
   const debtScore = Number(metrics.debt_score || 0);
   const spendingScore = Number(metrics.spending_score || metrics.investment_score || 0);
 
-  const metricChipScores = document.querySelectorAll('.metric-chip__score');
-  if (metricChipScores[0]) metricChipScores[0].textContent = String(Math.round(savingsScore));
-  if (metricChipScores[1]) metricChipScores[1].textContent = String(Math.round(emergencyScore));
-  if (metricChipScores[2]) metricChipScores[2].textContent = String(Math.round(debtScore));
-  if (metricChipScores[3]) metricChipScores[3].textContent = String(Math.round(spendingScore));
+// Returns a CSS colour variable based on score value — fixes Rahul's colour bug
+function scoreColour(score) {
+  const s = Number(score || 0);
+  if (s >= 70) return 'var(--color-accent-green)';
+  if (s >= 40) return 'var(--color-accent-orange)';
+  return '#E74C3C'; // red for critical scores below 40
+}
 
+const metricChipScores = document.querySelectorAll('.metric-chip__score');
+[[metricChipScores[0], savingsScore],
+ [metricChipScores[1], emergencyScore],
+ [metricChipScores[2], debtScore],
+ [metricChipScores[3], spendingScore]].forEach(([el, score]) => {
+  if (!el) return;
+  el.textContent = String(Math.round(score));
+  // Remove all hardcoded colour classes and apply dynamic colour
+  el.className = 'metric-chip__score'; // strips --teal, --orange, --green
+  el.style.color = scoreColour(score);
+});
   /* ----- Health screen: breakdown cards ----- */
-  const breakdownScores = document.querySelectorAll('.breakdown-card__score');
-  if (breakdownScores[0]) breakdownScores[0].innerHTML = `${Math.round(savingsScore)} <span>/ 100</span>`;
-  if (breakdownScores[1]) breakdownScores[1].innerHTML = `${Math.round(emergencyScore)} <span>/ 100</span>`;
-  if (breakdownScores[2]) breakdownScores[2].innerHTML = `${Math.round(debtScore)} <span>/ 100</span>`;
-  if (breakdownScores[3]) breakdownScores[3].innerHTML = `${Math.round(spendingScore)} <span>/ 100</span>`;
-
+const breakdownScores = document.querySelectorAll('.breakdown-card__score');
+[[breakdownScores[0], savingsScore],
+ [breakdownScores[1], emergencyScore],
+ [breakdownScores[2], debtScore],
+ [breakdownScores[3], spendingScore]].forEach(([el, score]) => {
+  if (!el) return;
+  el.innerHTML = `${Math.round(score)} <span>/ 100</span>`;
+  el.style.color = scoreColour(score); // dynamic colour, not hardcoded
+});
   const breakdownFills = document.querySelectorAll('.breakdown-card__fill');
   if (breakdownFills[0]) breakdownFills[0].style.width = `${clampPct(savingsScore)}%`;
   if (breakdownFills[1]) breakdownFills[1].style.width = `${clampPct(emergencyScore)}%`;
