@@ -3,3 +3,4 @@ package-lock.json
 excel_analysis.txt
 .idea/
 .venv/
+.vercel
