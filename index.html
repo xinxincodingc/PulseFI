@@ -33,6 +33,10 @@
       <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
       <span class="nav-item__label">Pulse AI</span>
     </button>
+    <button class="nav-item" data-screen="fhi" id="nav-fhi">
+      <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/><path d="M3.05 11a9 9 0 1 0 .5-2.7"/></svg>
+      <span class="nav-item__label">FHI Engine</span>
+    </button>
     <button class="nav-item" data-screen="goals" id="nav-goals">
       <svg class="nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
       <span class="nav-item__label">Savings Goals</span>
@@ -89,7 +93,7 @@
         <div>
           <div class="balance-hero__label">Total Balance</div>
           <div class="balance-hero__amount">
-            <span class="balance-hero__amount-main">£3,420</span>
+            <span class="balance-hero__amount-main">S$3,420</span>
             <span class="balance-hero__amount-decimal">.50</span>
           </div>
           <div class="balance-hero__meta">
@@ -156,14 +160,14 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="#2ECC71" stroke-width="2.5" width="16" height="16"><path d="M7 17l5-5 5 5M7 7l5 5 5-5"/></svg>
                 Income
               </span>
-              <span class="monthly-row__value">£2,400</span>
+              <span class="monthly-row__value">S$2,400</span>
             </div>
             <div class="monthly-row">
               <span class="monthly-row__label">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#E74C3C" stroke-width="2.5" width="16" height="16"><path d="M17 7l-5 5-5-5M17 17l-5-5-5 5"/></svg>
                 Spent
               </span>
-              <span class="monthly-row__value">£1,870</span>
+              <span class="monthly-row__value">S$1,870</span>
             </div>
             <div class="weekly-chart__labels">
               <span class="weekly-chart__label">M</span>
@@ -183,7 +187,7 @@
               <div class="weekly-chart__bar" style="height: 10%"></div>
               <div class="weekly-chart__bar" style="height: 8%"></div>
             </div>
-            <div class="saved-badge">£530 saved this month</div>
+            <div class="saved-badge">S$530 saved this month</div>
           </div>
         </div>
 
@@ -231,13 +235,13 @@
               <span class="pot-item__status">40%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar__fill progress-bar__fill--orange" style="width:40%"></div></div>
-            <div class="pot-item__footer">£1,200 / £3,000</div>
+            <div class="pot-item__footer">S$1,200 / S$3,000</div>
           </div>
           <div class="pot-item">
             <div class="pot-item__header">
               <div class="pot-item__info">
                 <div class="pot-item__icon pot-item__icon--first-1k">🎯</div>
-                <span class="pot-item__name">First £1K</span>
+                <span class="pot-item__name">First S$1K</span>
               </div>
               <span class="pot-item__status pot-item__status--done">Done ✓</span>
             </div>
@@ -252,7 +256,7 @@
               <span class="pot-item__status">42%</span>
             </div>
             <div class="progress-bar"><div class="progress-bar__fill progress-bar__fill--teal" style="width:42%"></div></div>
-            <div class="pot-item__footer">£840 / £2,000</div>
+            <div class="pot-item__footer">S$840 / S$2,000</div>
           </div>
         </div>
 
@@ -261,7 +265,7 @@
           <div class="portfolio-card__value-row">
             <div>
               <div class="portfolio-card__label">Portfolio</div>
-              <div class="portfolio-card__amount">£4,280</div>
+              <div class="portfolio-card__amount">S$4,280</div>
               <div class="portfolio-card__badge">📈 +3.2%</div>
               <div class="portfolio-card__meta">3 holdings · Mar 2026</div>
             </div>
@@ -301,6 +305,7 @@
           <div class="gauge-status">Fair</div>
           <div class="gauge-subtitle">Your plan is working.</div>
           <div class="gauge-description">One key area needs attention — your emergency buffer.</div>
+          <span id="health-fhi-tag" style="display:none;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#00B894;background:#E6FAF5;padding:3px 10px;border-radius:100px;margin-top:8px;">⚡ Updated by FHI Engine</span>
 
           <div class="metric-chips">
             <div class="metric-chip">
@@ -394,6 +399,7 @@
   <!-- ============================================================ -->
   <div class="screen" id="screen-pulse">
 
+    <div id="pulse-fhi-banner" style="display:none;margin-bottom:16px;"></div>
     <div class="grid-3" id="recommendations-container">
   <!-- Cards injected by pulse-ai.js -->
 </div>
@@ -421,7 +427,7 @@
 
     <div class="grid-2">
       <!-- Emergency Pot -->
-      <div class="goal-card">
+      <div class="goal-card" id="goal-card-emergency">
         <div class="goal-card__header">
           <div class="goal-card__info">
             <div class="goal-card__icon goal-card__icon--emergency">🛡</div>
@@ -434,22 +440,22 @@
         </div>
         <div class="goal-card__progress"><div class="progress-bar progress-bar--lg"><div class="progress-bar__fill progress-bar__fill--orange" style="width:40%"></div></div></div>
         <div class="goal-card__amounts">
-          <span class="goal-card__current">£1,200 / £3,000</span>
+          <span class="goal-card__current">S$1,200 / S$3,000</span>
           <span class="goal-card__target-date">Target Aug 2026</span>
         </div>
         <div class="goal-card__actions">
           <button class="btn btn--orange btn--full">+ Add Money</button>
-          <span class="goal-card__auto-label">+£200/mo</span>
+          <span class="goal-card__auto-label">+S$200/mo</span>
         </div>
       </div>
 
-      <!-- First £1K -->
+      <!-- First S$1K -->
       <div class="goal-card">
         <div class="goal-card__header">
           <div class="goal-card__info">
             <div class="goal-card__icon goal-card__icon--milestone">🎯</div>
             <div>
-              <div class="goal-card__name">First £1K <span class="check-icon">✅</span></div>
+              <div class="goal-card__name">First S$1K <span class="check-icon">✅</span></div>
               <div class="goal-card__sub">Milestone</div>
             </div>
           </div>
@@ -457,14 +463,14 @@
         </div>
         <div class="goal-card__progress"><div class="progress-bar progress-bar--lg"><div class="progress-bar__fill progress-bar__fill--green" style="width:100%"></div></div></div>
         <div class="goal-card__milestone-row">
-          <span class="goal-card__milestone-amount">£1,000 / £1,000</span>
+          <span class="goal-card__milestone-amount">S$1,000 / S$1,000</span>
           <span class="goal-card__milestone-badge">🎉 Complete!</span>
         </div>
         <button class="btn btn--green-outline btn--full">↗ Move to Investment</button>
       </div>
 
       <!-- Safe to Invest -->
-      <div class="goal-card">
+      <div class="goal-card" id="goal-card-invest">
         <div class="goal-card__header">
           <div class="goal-card__info">
             <div class="goal-card__icon goal-card__icon--invest">📈</div>
@@ -477,12 +483,12 @@
         </div>
         <div class="goal-card__progress"><div class="progress-bar progress-bar--lg"><div class="progress-bar__fill progress-bar__fill--teal" style="width:42%"></div></div></div>
         <div class="goal-card__amounts">
-          <span class="goal-card__current">£840 / £2,000</span>
+          <span class="goal-card__current">S$840 / S$2,000</span>
           <span class="goal-card__target-date">Target Oct 2026</span>
         </div>
         <div class="goal-card__actions">
           <button class="btn btn--primary btn--full">+ Add Money</button>
-          <span class="goal-card__auto-label">+£150/mo</span>
+          <span class="goal-card__auto-label">+S$150/mo</span>
         </div>
       </div>
 
@@ -500,12 +506,12 @@
         </div>
         <div class="goal-card__progress"><div class="progress-bar progress-bar--lg"><div class="progress-bar__fill progress-bar__fill--purple" style="width:43%"></div></div></div>
         <div class="goal-card__amounts">
-          <span class="goal-card__current">£340 / £800</span>
+          <span class="goal-card__current">S$340 / S$800</span>
           <span class="goal-card__target-date">Target Jun 2026</span>
         </div>
         <div class="goal-card__actions">
           <button class="btn btn--purple btn--full">+ Add Money</button>
-          <span class="goal-card__auto-label">+£80/mo</span>
+          <span class="goal-card__auto-label">+S$80/mo</span>
         </div>
       </div>
     </div>
@@ -517,11 +523,12 @@
   <!-- ============================================================ -->
   <div class="screen" id="screen-invest">
 
+    <div id="invest-fhi-insight" style="display:none;"></div>
     <div class="grid-sidebar-layout">
       <div class="stack">
         <!-- Portfolio Chart -->
         <div class="portfolio-top">
-          <div class="portfolio-top__value">£4,280.00</div>
+          <div class="portfolio-top__value">S$4,280.00</div>
           <div class="portfolio-top__change">↗ +3.2% all time</div>
           <div class="portfolio-chart">
             <canvas id="portfolioChart"></canvas>
@@ -557,7 +564,7 @@
               <div class="holding-item__fund">Vanguard FTSE All World</div>
             </div>
             <div class="holding-item__values">
-              <div class="holding-item__amount">£2,568</div>
+              <div class="holding-item__amount">S$2,568</div>
               <div class="holding-item__change">+4.1%</div>
             </div>
           </div>
@@ -570,7 +577,7 @@
               <div class="holding-item__fund">iShares Core UK Gilts</div>
             </div>
             <div class="holding-item__values">
-              <div class="holding-item__amount">£1,070</div>
+              <div class="holding-item__amount">S$1,070</div>
               <div class="holding-item__change">+0.8%</div>
             </div>
           </div>
@@ -583,7 +590,7 @@
               <div class="holding-item__fund">Easy Access ISA</div>
             </div>
             <div class="holding-item__values">
-              <div class="holding-item__amount">£642</div>
+              <div class="holding-item__amount">S$642</div>
               <div class="holding-item__change">+3.5%</div>
             </div>
           </div>
@@ -638,8 +645,16 @@
 
   </div>
 
+  <!-- ============================================================ -->
+  <!-- FHI ENGINE SCREEN                                          -->
+  <!-- ============================================================ -->
+  <div class="screen" id="screen-fhi">
+    <!-- Populated dynamically by fhi-engine.js -->
+  </div>
+
 </main>
 
+<script src="fhi-engine.js"></script>
 <script src="pulse-ai.js"></script>  <!-- ← added this line for AI reccomendations -->
 <script src="app.js"></script>
 </body>

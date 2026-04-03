@@ -44,9 +44,9 @@ function getUserIdFromURL() {
 
 function fmtGBP(value, decimals = 0) {
   const num = Number(value || 0);
-  return new Intl.NumberFormat('en-GB', {
+  return new Intl.NumberFormat('en-SG', {
     style: 'currency',
-    currency: 'GBP',
+    currency: 'SGD',
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals
   }).format(num);
@@ -82,11 +82,12 @@ function getScreenGreeting(screen) {
   const name = currentUser.first_name || 'there';
 
   const greetings = {
-    home: getGreetingForUser(name),
+    home:   getGreetingForUser(name),
     health: 'Your health score and breakdown',
-    pulse: 'Personalised recommendations based on your data',
-    goals: 'Track and grow your savings goals',
-    invest: 'Your investment overview'
+    pulse:  'Personalised recommendations based on your data',
+    fhi:    'Financial Health Index — powered by your data',
+    goals:  'Track and grow your savings goals',
+    invest: 'Your investment overview',
   };
 
   return greetings[screen] || '';
@@ -376,10 +377,10 @@ const breakdownScores = document.querySelectorAll('.breakdown-card__score');
   if (goalPercents[0]) goalPercents[0].textContent = `${emergencyPct}%`;
   if (goalCurrents[0]) goalCurrents[0].textContent = `${fmtGBP(emergencyCurrent, 0)} / ${fmtGBP(emergencyTarget, 0)}`;
   if (goalTargetDates[0]) goalTargetDates[0].textContent = safeText(emergency.target_date, 'Target Aug 2026');
-  if (goalAutoLabels[0]) goalAutoLabels[0].textContent = safeText(emergency.auto_contribution_label, '+£200/mo');
+  if (goalAutoLabels[0]) goalAutoLabels[0].textContent = safeText(emergency.auto_contribution_label, '+S$200/mo');
   if (goalProgressBars[0]) goalProgressBars[0].style.width = `${emergencyPct}%`;
 
-  // First £1K
+  // First S$1K
   const first1k = user.first_1k || {};
   const first1kCurrent = Number(first1k.current_amount || 1000);
   const first1kTarget = Number(first1k.target_amount || 1000);
@@ -397,7 +398,7 @@ const breakdownScores = document.querySelectorAll('.breakdown-card__score');
   if (goalPercents[2]) goalPercents[2].textContent = `${stiPct}%`;
   if (goalCurrents[1]) goalCurrents[1].textContent = `${fmtGBP(stiCurrent, 0)} / ${fmtGBP(stiTarget, 0)}`;
   if (goalTargetDates[1]) goalTargetDates[1].textContent = safeText(safeToInvest.target_date, 'Target Oct 2026');
-  if (goalAutoLabels[1]) goalAutoLabels[1].textContent = safeText(safeToInvest.auto_contribution_label, '+£150/mo');
+  if (goalAutoLabels[1]) goalAutoLabels[1].textContent = safeText(safeToInvest.auto_contribution_label, '+S$150/mo');
   if (goalProgressBars[2]) goalProgressBars[2].style.width = `${stiPct}%`;
 
   // Holiday Fund - keep UI unchanged, use dataset if present, otherwise keep static fallback
@@ -479,11 +480,12 @@ const breakdownScores = document.querySelectorAll('.breakdown-card__score');
    NAVIGATION
    ============================================= */
 const screenTitles = {
-  home: 'Dashboard',
+  home:   'Dashboard',
   health: 'Financial Health',
-  pulse: 'Pulse AI',
-  goals: 'Savings Goals',
-  invest: 'Investments'
+  pulse:  'Pulse AI',
+  fhi:    'FHI Engine',
+  goals:  'Savings Goals',
+  invest: 'Investments',
 };
 
 function initNavigation() {

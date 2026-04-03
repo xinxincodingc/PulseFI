@@ -1,0 +1,233 @@
+{
+  "meta": {
+    "source": "genz_fhi_master_dataset.xlsx + genz_fhi_ml_input.xlsx",
+    "n_users": 1312,
+    "alpha": 0.75,
+    "beta": 0.55
+  },
+  "lr_weights": {
+    "baseline": {
+      "net_worth_score": 0.077495,
+      "dti_score": 0.015707,
+      "savings_score": 0.16194,
+      "investment_score": 0.725909,
+      "emergency_score": 0.01895
+    },
+    "enhanced": {
+      "net_worth_score": 0.115357,
+      "dti_score": 0.010889,
+      "savings_score": 0.126242,
+      "investment_score": 0.58911,
+      "emergency_score": 0.01508,
+      "spending_ratio_score": 0.060669,
+      "spending_volatility_score": 0.050576,
+      "panic_sell_score": 0.032078
+    }
+  },
+  "feature_cols": {
+    "baseline": [
+      "net_worth_score",
+      "dti_score",
+      "savings_score",
+      "investment_score",
+      "emergency_score"
+    ],
+    "enhanced": [
+      "net_worth_score",
+      "dti_score",
+      "savings_score",
+      "investment_score",
+      "emergency_score",
+      "spending_ratio_score",
+      "spending_volatility_score",
+      "panic_sell_score"
+    ]
+  },
+  "vol_stats": {
+    "mean": 0.19224092987804875,
+    "std": 0.08191203022573773
+  },
+  "xgb_metrics": {
+    "model_a": {
+      "name": "5 Raw Features",
+      "features": "baseline features",
+      "auc": 0.6709,
+      "recall": 0.0408,
+      "precision": 0.1818,
+      "f1": 0.0667
+    },
+    "model_b": {
+      "name": "Baseline FHI",
+      "features": "fhi_baseline score",
+      "auc": 0.5239,
+      "recall": 0.0196,
+      "precision": 0.1,
+      "f1": 0.0328
+    },
+    "model_c": {
+      "name": "Enhanced FHI",
+      "features": "fhi_enhanced score",
+      "auc": 0.5496,
+      "recall": 0.0588,
+      "precision": 0.4286,
+      "f1": 0.1034
+    }
+  },
+  "kmeans": {
+    "n_clusters": 4,
+    "scaler": {
+      "mean": [
+        12.004331961484858,
+        97.04836536194398,
+        12.616958775082445,
+        0.8060990118045351,
+        23.435721544715445,
+        12.616958775082445,
+        50.120229369713634,
+        6.364329268292683
+      ],
+      "scale": [
+        13.707883017957446,
+        4.360628121872329,
+        7.149124965606231,
+        1.3547226432401367,
+        19.23255556298846,
+        7.149124965606231,
+        24.71799226115425,
+        16.66468650708399
+      ],
+      "features": [
+        "net_worth_score",
+        "dti_score",
+        "savings_score",
+        "investment_score",
+        "emergency_score",
+        "spending_ratio_score",
+        "spending_volatility_score",
+        "panic_sell_score"
+      ]
+    },
+    "centroids_scaled": [
+      [
+        -0.44721648501379474,
+        -0.07564037259948832,
+        -0.6095324725286021,
+        -0.2316447757174516,
+        -0.4504672668532009,
+        -0.6095324725286021,
+        0.07042597423481922,
+        -0.38190513008374183
+      ],
+      [
+        -0.33259102520754863,
+        0.05241411956038846,
+        1.2333794949993333,
+        -0.2050447570131456,
+        -0.19077860030108898,
+        1.2333794949993333,
+        0.043840033124035074,
+        -0.3251160486122515
+      ],
+      [
+        1.4418665789327416,
+        0.14373046736893977,
+        -0.12548907152990563,
+        0.019958957359892653,
+        1.3140779128317615,
+        -0.12548907152990557,
+        -0.3141900878178206,
+        -0.37075138855557416
+      ],
+      [
+        -0.18316390140191804,
+        -0.07791450457235204,
+        -0.0764335013878483,
+        1.192132321871461,
+        -0.2377854326086675,
+        -0.07643350138784827,
+        0.19224213566104603,
+        2.618451340993318
+      ]
+    ],
+    "cluster_profiles": {
+      "0": {
+        "rank": 0,
+        "label": "Financially Vulnerable",
+        "desc": "High debt, low savings and minimal emergency buffer. Immediate action needed on core habits.",
+        "feature_means": {
+          "net_worth_score": 5.87,
+          "dti_score": 96.72,
+          "savings_score": 8.26,
+          "investment_score": 0.49,
+          "emergency_score": 14.77,
+          "spending_ratio_score": 8.26,
+          "spending_volatility_score": 51.86,
+          "panic_sell_score": 0.0
+        },
+        "avg_fhi": 7.07
+      },
+      "1": {
+        "rank": 1,
+        "label": "Developing",
+        "desc": "Building financial foundations. Some savings but limited investment and emergency coverage.",
+        "feature_means": {
+          "net_worth_score": 7.45,
+          "dti_score": 97.28,
+          "savings_score": 21.43,
+          "investment_score": 0.53,
+          "emergency_score": 19.77,
+          "spending_ratio_score": 21.43,
+          "spending_volatility_score": 51.2,
+          "panic_sell_score": 0.95
+        },
+        "avg_fhi": 10.25
+      },
+      "2": {
+        "rank": 2,
+        "label": "Stable",
+        "desc": "Solid savings rate and manageable debt. Ready to grow investments systematically.",
+        "feature_means": {
+          "net_worth_score": 31.77,
+          "dti_score": 97.68,
+          "savings_score": 11.72,
+          "investment_score": 0.83,
+          "emergency_score": 48.71,
+          "spending_ratio_score": 11.72,
+          "spending_volatility_score": 42.35,
+          "panic_sell_score": 0.19
+        },
+        "avg_fhi": 10.28
+      },
+      "3": {
+        "rank": 3,
+        "label": "Thriving",
+        "desc": "Strong across all pillars \u2014 high net worth ratio, low debt, diversified investments.",
+        "feature_means": {
+          "net_worth_score": 9.49,
+          "dti_score": 96.71,
+          "savings_score": 12.07,
+          "investment_score": 2.42,
+          "emergency_score": 18.86,
+          "spending_ratio_score": 12.07,
+          "spending_volatility_score": 54.87,
+          "panic_sell_score": 50.0
+        },
+        "avg_fhi": 11.44
+      }
+    },
+    "elbow_inertias": {
+      "2": 8732.47,
+      "3": 7361.64,
+      "4": 6220.05,
+      "5": 5642.68,
+      "6": 5162.99
+    },
+    "silhouette_scores": {
+      "2": 0.1801,
+      "3": 0.2129,
+      "4": 0.2245,
+      "5": 0.2146,
+      "6": 0.227
+    }
+  }
+}
