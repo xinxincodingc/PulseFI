@@ -1,6 +1,6 @@
 # PulseFi — Gen Z Banking AI Advisor
 
-A smart financial health dashboard built for 18–30 year olds in Singapore. Combines a banking dashboard, AI-powered recommendations, and a machine-learning Financial Health Index (FHI) engine — all running in the browser with no backend required.
+A smart financial health dashboard built for 18–30 year olds in Singapore. Combines a fully interactive banking dashboard, AI-powered recommendations, and a machine-learning Financial Health Index (FHI) engine — all running in the browser with no backend required.
 
 ---
 
@@ -8,6 +8,18 @@ A smart financial health dashboard built for 18–30 year olds in Singapore. Com
 
 ### Dashboard
 A full banking dashboard showing balance, savings pots, investment portfolio, monthly cash flow, and savings goals — personalised per user from a dataset of 2,000 Gen Z profiles.
+
+### Interactive Banking Actions
+Every button in the app is functional and connected to live state:
+- **Send / Receive / Pay / Top Up** — real-time balance updates via modal flows
+- **Add Money to goals** — Emergency Pot, Safe to Invest, Holiday Fund
+- **Move to Investment** — transfers savings milestone directly into portfolio
+- **Manage Holdings** — view full portfolio breakdown
+- **Talk to a Specialist** — callback request for wealth planning, CPF, mortgages
+- **Notifications** — live unread badge with dismissible notification panel
+- **Settings** — profile, preferences, security toggles
+
+All financial actions automatically re-run the FHI engine and sync results across every screen.
 
 ### Pulse AI
 Pre-generated personalised financial recommendations powered by **Gemini Flash Lite**, surfaced as actionable cards (Urgent / Ready / On Track).
@@ -51,9 +63,10 @@ Scores appear lower than traditional indexes because **investments carry 59% of 
 ```
 ├── index.html                        # Single-page app shell (6 screens)
 ├── app.js                            # Navigation, user data rendering, Canvas charts
+├── app-actions.js                    # AppState, modals, all action button handlers
 ├── pulse-ai.js                       # AI recommendations loader
 ├── fhi-engine.js                     # FHI algorithm engine (all 6 tasks)
-├── styles.css                        # Full design system
+├── styles.css                        # Full design system + modal/toast styles
 ├── users.json                        # 2,000 user profiles
 ├── recommendations.json              # Pre-generated AI recommendations
 ├── fhi_engine_data.json              # Pre-computed ML weights & cluster centroids
@@ -62,7 +75,8 @@ Scores appear lower than traditional indexes because **investments carry 59% of 
 └── scripts/
     ├── extract_fhi_weights.py        # Derives weights/centroids from datasets
     ├── generate_recommendations.py   # Batch generates AI recs via Gemini
-    └── generate_users_json_for_frontend.py  # Converts Excel → users.json
+    ├── generate_users_json_for_frontend.py  # Converts Excel → users.json
+    └── .env.example                  # Template for API key (never commit the real .env)
 ```
 
 ---
@@ -94,7 +108,7 @@ Groups user into 1 of 4 money personalities:
 Optimal K=4 selected via silhouette score (0.225).
 
 ### Task 6 — Persistence
-Results saved to `localStorage` and `window.fhiResults`. Syncs live to all 5 dashboard screens.
+Results saved to `localStorage` and `window.fhiResults`. Syncs live to all 5 dashboard screens. Any financial action (send, receive, top up, add to goals) also triggers a silent FHI recalculation.
 
 ---
 
@@ -128,14 +142,18 @@ python extract_fhi_weights.py
 
 This overwrites `fhi_engine_data.json` with freshly computed weights, centroids and model metrics.
 
-To regenerate AI recommendations (requires Gemini API key):
+To regenerate AI recommendations (requires a Gemini API key):
 
 ```bash
-# Add your key to scripts/.env
-echo "GEMINI_API_KEY=your_key_here" > .env
-python generate_users_json_for_frontend.py
-python generate_recommendations.py
+# Copy the template and add your key — never commit the real .env
+cp scripts/.env.example scripts/.env
+# Edit scripts/.env and set GEMINI_API_KEY=your_key_here
+
+python scripts/generate_users_json_for_frontend.py
+python scripts/generate_recommendations.py
 ```
+
+> **Security note:** `scripts/.env` is listed in `.gitignore` and will never be committed. Your API key stays local only.
 
 ---
 

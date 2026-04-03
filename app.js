@@ -188,6 +188,7 @@ async function loadDashboardData() {
 
   currentUser = user;
   renderUserData(user);
+  if (typeof onUserDataLoaded === 'function') onUserDataLoaded(user);
 }
 
 function renderUserData(user) {

@@ -4,3 +4,8 @@ excel_analysis.txt
 .idea/
 .venv/
 .vercel
+
+# API keys — never commit real credentials
+.env
+*.env
+scripts/.env

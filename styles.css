@@ -1966,3 +1966,284 @@ body {
   font-size: 12px;
   color: var(--color-text-secondary);
 }
+
+/* =============================================
+   MODAL OVERLAY
+   ============================================= */
+#pulsefi-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(3px);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity .2s ease;
+  padding: 16px;
+}
+#pulsefi-modal-overlay.active { opacity: 1; }
+
+.pulsefi-modal {
+  background: var(--color-white);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(15,23,42,.22);
+  width: 100%;
+  max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: translateY(16px);
+  transition: transform .2s ease;
+  display: flex;
+  flex-direction: column;
+}
+#pulsefi-modal-overlay.active .pulsefi-modal { transform: translateY(0); }
+
+.pulsefi-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 22px 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+.pulsefi-modal__title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+.pulsefi-modal__close {
+  background: none;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 0 4px;
+  border-radius: 6px;
+  transition: background .15s, color .15s;
+}
+.pulsefi-modal__close:hover { background: var(--color-bg); color: var(--color-text-primary); }
+
+.pulsefi-modal__body {
+  padding: 20px 22px;
+  flex: 1;
+}
+.pulsefi-modal__footer {
+  display: flex;
+  gap: 10px;
+  padding: 16px 22px 20px;
+  border-top: 1px solid var(--color-border);
+  justify-content: flex-end;
+}
+.pulsefi-modal__footer .btn { min-width: 90px; }
+
+/* =============================================
+   MODAL FORM ELEMENTS
+   ============================================= */
+.pulsefi-form-group { margin-bottom: 16px; }
+.pulsefi-form-group:last-of-type { margin-bottom: 0; }
+
+.pulsefi-form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+}
+.pulsefi-form-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--color-text-primary);
+  background: var(--color-bg);
+  transition: border-color .15s, box-shadow .15s;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+}
+.pulsefi-form-input:focus {
+  outline: none;
+  border-color: var(--color-accent-purple);
+  box-shadow: 0 0 0 3px rgba(108,92,231,.12);
+}
+.pulsefi-form-input::placeholder { color: var(--color-text-tertiary, #A0AEC0); }
+
+.pulsefi-balance-note {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: var(--color-bg);
+  border-radius: 8px;
+}
+.pulsefi-info-note {
+  font-size: 12px;
+  color: var(--color-accent-teal);
+  background: #E6FAF5;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-top: 8px;
+}
+.pulsefi-goal-progress__labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+/* =============================================
+   TOAST
+   ============================================= */
+.pulsefi-toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #1A202C;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 22px;
+  border-radius: 100px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.2);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity .25s ease, transform .25s ease;
+  white-space: nowrap;
+  max-width: calc(100vw - 40px);
+}
+.pulsefi-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+.pulsefi-toast--success { background: #2D3748; }
+.pulsefi-toast--error   { background: #C53030; }
+.pulsefi-toast--info    { background: #2B6CB0; }
+
+/* =============================================
+   NOTIFICATION BADGE
+   ============================================= */
+.notif-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  background: #E74C3C;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* =============================================
+   NOTIFICATIONS PANEL (inside modal)
+   ============================================= */
+.pulsefi-notif-item {
+  display: flex;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.pulsefi-notif-item:last-child { border-bottom: none; }
+.pulsefi-notif-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: var(--color-bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pulsefi-notif-content { flex: 1; }
+.pulsefi-notif-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 2px;
+}
+.pulsefi-notif-body  { font-size: 13px; color: var(--color-text-secondary); line-height: 1.4; }
+.pulsefi-notif-time  { font-size: 11px; color: var(--color-text-secondary); margin-top: 4px; }
+
+/* =============================================
+   SETTINGS PANEL
+   ============================================= */
+.pulsefi-settings-section { }
+.pulsefi-settings-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin-bottom: 12px;
+}
+.pulsefi-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-border);
+}
+.pulsefi-toggle-row:last-child { border-bottom: none; }
+.pulsefi-toggle {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.pulsefi-toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+.pulsefi-toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: #CBD5E0;
+  border-radius: 22px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.pulsefi-toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 3px;
+  top: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform .2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,.2);
+}
+.pulsefi-toggle input:checked + .pulsefi-toggle-slider { background: var(--color-accent-teal); }
+.pulsefi-toggle input:checked + .pulsefi-toggle-slider::before { transform: translateX(18px); }
+
+/* =============================================
+   HOLDINGS ROW (inside modal)
+   ============================================= */
+.pulsefi-holding-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.pulsefi-holding-row:last-child { border-bottom: none; }
+.pulsefi-holding-name { flex: 1; }
+
+/* =============================================
+   QUICK ACTION clickable cursor
+   ============================================= */
+.quick-action { cursor: pointer; }
+.quick-action:hover { opacity: .8; }
